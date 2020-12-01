@@ -5,9 +5,13 @@
  */
 package com.gswcode.dictionarywebservice.config;
 
-import com.gswcode.dictionarywebservice.service.DictConfService;
+import com.gswcode.dictionarywebservice.service.DictionaryService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  *
@@ -17,8 +21,17 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
     
     @Bean(name="dictConfService")
-    public DictConfService dictConfService() {
-        return new DictConfService();
+    public DictionaryService dictConfService() {
+        return new DictionaryService();
+    }
+    
+    @Bean
+    public Docket api() { 
+        return new Docket(DocumentationType.SWAGGER_2)  
+          .select()                                  
+          .apis(RequestHandlerSelectors.basePackage("com.gswcode.dictionarywebservice.controller"))              
+          .paths(PathSelectors.any())                          
+          .build();                                           
     }
 
 }

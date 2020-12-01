@@ -19,7 +19,7 @@ public class DictConfServiceTest {
 
     @Autowired
     @Qualifier("dictConfService")
-    private DictConfService service;
+    private DictionaryService service;
 
     @Autowired
     private DictionaryMapper mapper;

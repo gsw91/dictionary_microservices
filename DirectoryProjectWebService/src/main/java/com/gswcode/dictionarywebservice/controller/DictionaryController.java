@@ -4,7 +4,7 @@ import com.gswcode.dictionarywebservice.domain.DictConf;
 import com.gswcode.dictionarywebservice.dto.DictionaryDto;
 import com.gswcode.dictionarywebservice.dto.ServiceStatusDto;
 import com.gswcode.dictionarywebservice.mapper.DictionaryMapper;
-import com.gswcode.dictionarywebservice.service.DictConfService;
+import com.gswcode.dictionarywebservice.service.DictionaryService;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class DictionaryController {
     private final static Logger LOGGER = Logger.getLogger(DictionaryController.class);
 
     @Autowired
-    private DictConfService service;
+    private DictionaryService service;
 
     @Autowired
     private DictionaryMapper mapper;

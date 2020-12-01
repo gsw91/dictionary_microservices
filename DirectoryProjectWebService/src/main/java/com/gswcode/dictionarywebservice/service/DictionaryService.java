@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class DictConfService {
+public class DictionaryService {
 
-    private final static Logger LOGGER = Logger.getLogger(DictConfService.class);
+    private final static Logger LOGGER = Logger.getLogger(DictionaryService.class);
 
     @Autowired
     private DictConfRepository repo;

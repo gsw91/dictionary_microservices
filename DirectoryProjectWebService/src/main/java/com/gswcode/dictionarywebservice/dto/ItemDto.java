@@ -1,6 +1,5 @@
 package com.gswcode.dictionarywebservice.dto;
 
-import java.util.List;
 import java.util.Objects;
 
 public class ItemDto {
@@ -9,17 +8,13 @@ public class ItemDto {
     private Long dictionaryId;
     private String termName;
     private String termDescription;
-    private boolean termActive;
-    private List<Long> aliases;
     private Long masterItemId;
 
-    public ItemDto(Long id, Long dictionaryId, String termName, String termDescription, boolean termActive, List<Long> aliases, Long masterItemId) {
+    public ItemDto(Long id, Long dictionaryId, String termName, String termDescription, Long masterItemId) {
         this.id = id;
         this.dictionaryId = dictionaryId;
         this.termName = termName;
         this.termDescription = termDescription;
-        this.termActive = termActive;
-        this.aliases = aliases;
         this.masterItemId = masterItemId;
     }
     
@@ -58,22 +53,6 @@ public class ItemDto {
         this.termDescription = termDescription;
     }
 
-    public boolean isTermActive() {
-        return termActive;
-    }
-
-    public void setTermActive(boolean termActive) {
-        this.termActive = termActive;
-    }
-
-    public List<Long> getAliases() {
-        return aliases;
-    }
-
-    public void setAliases(List<Long> aliases) {
-        this.aliases = aliases;
-    }
-
     public Long getMasterItemId() {
         return masterItemId;
     }
@@ -109,7 +88,7 @@ public class ItemDto {
 
     @Override
     public String toString() {
-        return "ItemDto{" + "id=" + id + ", dictionaryId=" + dictionaryId + ", termName=" + termName + ", termDescription=" + termDescription + ", termActive=" + termActive + ", aliases=" + aliases + ", masterItemId=" + masterItemId + '}';
+        return "ItemDto{" + "id=" + id + ", dictionaryId=" + dictionaryId + ", termName=" + termName + ", termDescription=" + termDescription + ", masterItemId=" + masterItemId + '}';
     }
 
 }
