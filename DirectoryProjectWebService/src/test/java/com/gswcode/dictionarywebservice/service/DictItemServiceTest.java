@@ -5,6 +5,7 @@
  */
 package com.gswcode.dictionarywebservice.service;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class DictItemServiceTest {
     @Autowired
     private ItemService service;
 
+    @Ignore
     @Test
     public void test2() {
         //given && when && then

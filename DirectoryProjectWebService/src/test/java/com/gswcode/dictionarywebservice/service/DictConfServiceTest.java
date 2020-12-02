@@ -6,6 +6,7 @@ import com.gswcode.dictionarywebservice.mapper.DictionaryMapper;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class DictConfServiceTest {
     @Autowired
     private DictionaryMapper mapper;
 
+    @Ignore
     @Test
     public void testUpdateDictionaryWithMapperV2() {
         //given
@@ -39,6 +41,7 @@ public class DictConfServiceTest {
         service.update(dictConf);
     }
 
+    @Ignore
     @Test
     public void testUpdateDictionaryWithMapper() {
         //given
@@ -54,6 +57,7 @@ public class DictConfServiceTest {
         service.update(dictConf);
     }
 
+    @Ignore
     @Test
     public void testUpdateDictionary() {
         //given
@@ -66,6 +70,7 @@ public class DictConfServiceTest {
         service.save(dictConf);
     }
 
+    @Ignore
     @Test
     public void testFindActiveDirectories() {
         //given

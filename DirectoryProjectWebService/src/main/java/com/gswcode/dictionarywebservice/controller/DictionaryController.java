@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("dictionary")
@@ -37,29 +38,40 @@ public class DictionaryController {
         LOGGER.debug("Objects from db: " + dictConfList.size());
         List<DictionaryDto> dtos = mapper.mapToListDto(dictConfList);
         LOGGER.debug("Objects mapped: " + dictConfList.size());
+        ControllerRegistry.getNextRegisterId();
         return dtos;
     }
 
     @PostMapping("/add")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public ServiceStatusDto add(@RequestBody DictionaryDto dictionary) {
-        LOGGER.debug("Object to add received: " + dictionary);
-        ServiceStatusDto status = service.save(mapper.mapToDomain(dictionary));
-        status.setRequestId(ControllerRegistry.getNextRegisterId());
-        return status;
+        try {
+            LOGGER.debug("Object to add received: " + dictionary);
+            ServiceStatusDto status = service.save(mapper.mapToDomain(dictionary));
+            status.setRequestId(ControllerRegistry.getNextRegisterId());
+            return status;
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Invalid request", ex);
+        }
     }
 
     @PutMapping("/update")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public ServiceStatusDto update(@RequestBody DictionaryDto dictionary) {
-        LOGGER.debug("Object to update received: " + dictionary);
-        ServiceStatusDto status = service.update(mapper.mapToDomain(dictionary));
-        status.setRequestId(ControllerRegistry.getNextRegisterId());
-        return status;
+        try {
+            LOGGER.debug("Object to update received: " + dictionary);
+            ServiceStatusDto status = service.update(mapper.mapToDomain(dictionary));
+            status.setRequestId(ControllerRegistry.getNextRegisterId());
+            return status;
+        } catch (Exception ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Invalid request", ex);
+        }
     }
-    
+
     @PutMapping("/deactivate")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public ServiceStatusDto deactivate(@RequestParam("dictionaryId") long dictionaryId) {
         LOGGER.debug("Moving dictionary to archive: " + dictionaryId);
         ServiceStatusDto status = service.deactivate(dictionaryId);
