@@ -40,7 +40,7 @@ public class DictionaryService {
         if (model.getId() > 0) { //update
             DictionaryDto dto = restClient.getDictionaryById(model.getId());
             dto.setName(model.getName());
-            dto.setDesciption(model.getDescription());
+            dto.setDescription(model.getDescription());
             dto.setAuthor(model.getAuthor());
             dto.setMasterDictionaryId(mapper.getMasterId(model.getMasterDictionaryName()));
             return restClient.updateDictionary(dto).getMessage();
@@ -64,8 +64,8 @@ public class DictionaryService {
         return restClient.activateDictionary(id).getMessage();
     }
 
-    public void deleteDictionary(long id) {
-        dictionaries.removeIf(t -> t.getId() == id);
+    public String deleteDictionary(long id) {
+         return restClient.deleteDictionary(id).getMessage();
     }
 
 }

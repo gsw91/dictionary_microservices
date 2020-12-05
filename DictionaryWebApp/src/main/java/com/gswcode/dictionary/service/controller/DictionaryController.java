@@ -77,7 +77,8 @@ public class DictionaryController {
 
     @GetMapping("/deleteDictionary/{id}")
     public String deleteDictionary(@PathVariable(value = "id") long id, Model model, RedirectAttributes redirAttrs) {
-        dictionaryService.deleteDictionary(id);
+        String message = dictionaryService.deleteDictionary(id);
+        redirAttrs.addFlashAttribute("success", message);
         return "redirect:/";
     }
 

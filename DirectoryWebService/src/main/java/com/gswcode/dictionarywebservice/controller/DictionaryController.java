@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -93,6 +94,13 @@ public class DictionaryController {
     public DictionaryDto getById(@RequestParam("dictionaryId") long dictionaryId) {
         LOGGER.debug("Loading dictionary: " + dictionaryId);
         return mapper.mapToDto(service.getDictionaryById(dictionaryId));
+    }
+    
+    @DeleteMapping("/delete")
+    @ResponseStatus(HttpStatus.OK)
+    public ServiceStatusDto deleteById(@RequestParam("dictionaryId") long dictionaryId) {
+        LOGGER.debug("Deleting dictionary: " + dictionaryId);
+        return service.delete(dictionaryId);
     }
 
 }

@@ -28,7 +28,7 @@ public class RestClient {
     private RestTemplate restTemplate;
 
     private Gson gson = new Gson();
-    
+
     public DictionaryDto[] getDictionaries() {
         return restTemplate.getForObject("http://localhost:8080/DictionaryWebService/dictionary/getList", DictionaryDto[].class);
     }
@@ -37,7 +37,7 @@ public class RestClient {
         return restTemplate.getForObject("http://localhost:8080/DictionaryWebService/dictionary/getById?dictionaryId=" + id, DictionaryDto.class);
     }
 
-    public ServiceStatusDto updateDictionary(DictionaryDto dto) {       
+    public ServiceStatusDto updateDictionary(DictionaryDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", "application/json");
         headers.add("Content-Type", "application/json");
@@ -45,8 +45,8 @@ public class RestClient {
         ResponseEntity<ServiceStatusDto> res = restTemplate.exchange("http://localhost:8080/DictionaryWebService/dictionary/update", HttpMethod.PUT, requestUpdate, ServiceStatusDto.class);
         return res.getBody();
     }
-    
-    public ServiceStatusDto addDictionary(DictionaryDto dto) {       
+
+    public ServiceStatusDto addDictionary(DictionaryDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", "application/json");
         headers.add("Content-Type", "application/json");
@@ -54,22 +54,31 @@ public class RestClient {
         ResponseEntity<ServiceStatusDto> res = restTemplate.exchange("http://localhost:8080/DictionaryWebService/dictionary/add", HttpMethod.POST, requestAdd, ServiceStatusDto.class);
         return res.getBody();
     }
-    
-    public ServiceStatusDto deactivateDictionary(Long id) {       
+
+    public ServiceStatusDto deactivateDictionary(Long id) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/DictionaryWebService/dictionary/deactivate")
-        .queryParam("dictionaryId", id);
+                .queryParam("dictionaryId", id);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<ServiceStatusDto> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.PUT, entity, ServiceStatusDto.class);
         return res.getBody();
     }
-    
-     public ServiceStatusDto activateDictionary(Long id) {       
+
+    public ServiceStatusDto activateDictionary(Long id) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/DictionaryWebService/dictionary/activate")
-        .queryParam("dictionaryId", id);
+                .queryParam("dictionaryId", id);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<ServiceStatusDto> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.PUT, entity, ServiceStatusDto.class);
+        return res.getBody();
+    }
+
+    public ServiceStatusDto deleteDictionary(Long id) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/DictionaryWebService/dictionary/delete")
+                .queryParam("dictionaryId", id);
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<ServiceStatusDto> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE, entity, ServiceStatusDto.class);
         return res.getBody();
     }
 

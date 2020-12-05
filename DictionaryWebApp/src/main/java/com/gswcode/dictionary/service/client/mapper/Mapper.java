@@ -40,7 +40,7 @@ public class Mapper {
             String masterDictionaryName = namesMap.get(dto.getMasterDictionaryId()).getName();
             modelList.add(new Dictionary(dto.getId(),
                     dto.getName(),
-                    dto.getDesciption(),
+                    dto.getDescription(),
                     dto.getAuthor(),
                     LocalDateTime.parse(dto.getCreationAt()).format(formatter),
                     status,
@@ -57,7 +57,7 @@ public class Mapper {
         return new Dictionary(
                 dto.getId(),
                 dto.getName(),
-                dto.getDesciption(),
+                dto.getDescription(),
                 dto.getAuthor(),
                 LocalDateTime.parse(dto.getCreationAt()).format(formatter),
                 status,

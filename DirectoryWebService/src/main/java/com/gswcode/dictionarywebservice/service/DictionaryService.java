@@ -135,5 +135,19 @@ public class DictionaryService {
         }
         return status;
     }
+    
+    public ServiceStatusDto delete(long id) {
+        boolean exists = repo.findById(id).isPresent();
+        ServiceStatusDto status = new ServiceStatusDto();
+        if (exists) {
+            repo.deleteById(id);
+            status.setMessage("Dictionary has been deleted");
+            status.setSuccess(true);
+        } else {
+            status.setMessage("That dictionary doesn't exist");
+            status.setSuccess(false);
+        }   
+        return status;
+    }
 
 }

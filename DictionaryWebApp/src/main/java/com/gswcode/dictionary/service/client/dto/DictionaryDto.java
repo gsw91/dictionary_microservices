@@ -12,7 +12,7 @@ public class DictionaryDto {
     private long id;
     private long masterDictionaryId;   
     private String name;
-    private String desciption;
+    private String description;
     private String author;
     private String creationAt;
     private boolean isActive;
@@ -21,21 +21,21 @@ public class DictionaryDto {
     public DictionaryDto() {
     }
 
-    public DictionaryDto(long masterDictionaryId, String name, String desciption, String author, String creationAt, boolean isActive, int totalItems) {
+    public DictionaryDto(long masterDictionaryId, String name, String description, String author, String creationAt, boolean isActive, int totalItems) {
         this.masterDictionaryId = masterDictionaryId;
         this.name = name;
-        this.desciption = desciption;
+        this.description = description;
         this.author = author;
         this.creationAt = creationAt;
         this.isActive = isActive;
         this.totalItems = totalItems;
     }
 
-    public DictionaryDto(long id, long masterDictionaryId, String name, String desciption, String author, String creationAt, boolean isActive, int totalItems) {
+    public DictionaryDto(long id, long masterDictionaryId, String name, String description, String author, String creationAt, boolean isActive, int totalItems) {
         this.id = id;
         this.masterDictionaryId = masterDictionaryId;
         this.name = name;
-        this.desciption = desciption;
+        this.description = description;
         this.author = author;
         this.creationAt = creationAt;
         this.isActive = isActive;
@@ -66,12 +66,12 @@ public class DictionaryDto {
         this.name = name;
     }
 
-    public String getDesciption() {
-        return desciption;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesciption(String desciption) {
-        this.desciption = desciption;
+    public void setDescription(String desciption) {
+        this.description = desciption;
     }
 
     public String getAuthor() {
@@ -133,7 +133,7 @@ public class DictionaryDto {
 
     @Override
     public String toString() {
-        return "DictionaryDto{" + "id=" + id + ", masterDictionaryId=" + masterDictionaryId + ", name=" + name + ", desciption=" + desciption + ", author=" + author + ", creationAt=" + creationAt + ", isActive=" + isActive + ", totalItems=" + totalItems + '}';
+        return "DictionaryDto{" + "id=" + id + ", masterDictionaryId=" + masterDictionaryId + ", name=" + name + ", desciption=" + description + ", author=" + author + ", creationAt=" + creationAt + ", isActive=" + isActive + ", totalItems=" + totalItems + '}';
     }
     
 }
