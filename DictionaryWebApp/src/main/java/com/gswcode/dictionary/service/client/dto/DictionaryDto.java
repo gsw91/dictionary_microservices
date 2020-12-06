@@ -5,8 +5,6 @@
  */
 package com.gswcode.dictionary.service.client.dto;
 
-import java.time.LocalDateTime;
-
 public class DictionaryDto {
 
     private long id;

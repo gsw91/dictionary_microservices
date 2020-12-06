@@ -8,16 +8,18 @@ public class ItemDto {
     private Long dictionaryId;
     private String termName;
     private String termDescription;
+    private boolean isActive;
     private Long masterItemId;
 
-    public ItemDto(Long id, Long dictionaryId, String termName, String termDescription, Long masterItemId) {
+    public ItemDto(Long id, Long dictionaryId, String termName, String termDescription, boolean isActive, Long masterItemId) {
         this.id = id;
         this.dictionaryId = dictionaryId;
         this.termName = termName;
         this.termDescription = termDescription;
+        this.isActive = isActive;
         this.masterItemId = masterItemId;
     }
-    
+
     public ItemDto() {
     }
 
@@ -61,6 +63,14 @@ public class ItemDto {
         this.masterItemId = masterItemId;
     }
 
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -88,7 +98,7 @@ public class ItemDto {
 
     @Override
     public String toString() {
-        return "ItemDto{" + "id=" + id + ", dictionaryId=" + dictionaryId + ", termName=" + termName + ", termDescription=" + termDescription + ", masterItemId=" + masterItemId + '}';
+        return "ItemDto{" + "id=" + id + ", dictionaryId=" + dictionaryId + ", termName=" + termName + ", termDescription=" + termDescription + ", isActive=" + isActive + ", masterItemId=" + masterItemId + '}';
     }
 
 }

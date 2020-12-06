@@ -42,7 +42,7 @@ and open the template in the editor.
                             <td style="text-align: center; border: 1px solid black; font-size: 14px;" th:text="${dictionary.masterDictionaryName}"></td>
                             <td style="text-align: center; border: 1px solid black; font-size: 14px;" th:text="${dictionary.items}"></td>
                             <td style="text-align: center; border: 1px solid black;" > 
-                                <a th:href="@{/showFormItems/{id}(id=${dictionary.id})}" class="btn btn-primary" style="width: 110px">Show Items</a> 
+                                <a th:href="@{/showItems/{dictionaryId}(dictionaryId=${dictionary.id})}" class="btn btn-primary" style="width: 110px">Show Items</a> 
                                 <a th:href="@{/showFormForUpdate/{id}(id=${dictionary.id})}" class="btn btn-secondary" style="width: 80px">Update</a> 
                                 <br>
                                 <span th:if="${dictionary.status == 'Active'}">

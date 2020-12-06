@@ -47,6 +47,7 @@ public class ItemMapper {
                 idDictConf,
                 domain.getTermName(),
                 domain.getTermDescription(),
+                domain.getTermActive(),
                 idMasterItem);
     }
 

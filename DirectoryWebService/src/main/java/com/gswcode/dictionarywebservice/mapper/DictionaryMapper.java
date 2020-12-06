@@ -2,17 +2,22 @@ package com.gswcode.dictionarywebservice.mapper;
 
 import com.gswcode.dictionarywebservice.domain.DictConf;
 import com.gswcode.dictionarywebservice.dto.DictionaryDto;
+import com.gswcode.dictionarywebservice.service.ItemService;
 import com.gswcode.dictionarywebservice.util.Common;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DictionaryMapper {
 
+    @Autowired
+    private ItemService itemService;
+    
     private final static Logger LOGGER = Logger.getLogger(DictionaryMapper.class);
     
     public DictConf mapToDomain(DictionaryDto dto) {
@@ -43,10 +48,7 @@ public class DictionaryMapper {
         long masterId = 0;
         if (domain.getMasterDictId() != null)
             masterId = domain.getMasterDictId().getId();   
-        int itemsQty = 0;
-        if (domain.getDictItemList() != null) {
-            itemsQty = domain.getDictItemList().size();
-        }
+        int itemsQty = itemService.getItemsByDictionaryId(domain.getId()).size();
         DictionaryDto dto = new DictionaryDto(
                 domain.getId(),
                 masterId,

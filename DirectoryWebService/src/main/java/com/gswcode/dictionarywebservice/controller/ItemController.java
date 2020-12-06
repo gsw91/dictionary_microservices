@@ -36,7 +36,7 @@ public class ItemController {
     public List<ItemDto> getList(@RequestParam("dictionaryId") long id) {
         LOGGER.debug("Loading items of diconary id: " + id);
         ControllerRegistry.getNextRegisterId();
-        return mapper.mapToListDto(service.getActiveItemsByDictionaryId(id));
+        return mapper.mapToListDto(service.getItemsByDictionaryId(id));
     }
 
     @PostMapping("/add")

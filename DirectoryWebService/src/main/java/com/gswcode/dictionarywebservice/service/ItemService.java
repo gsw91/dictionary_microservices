@@ -34,7 +34,7 @@ public class ItemService {
     @Autowired
     private DictItemRepository itemRepo;
 
-    public List<DictItem> getActiveItemsByDictionaryId(long id) {
+    public List<DictItem> getItemsByDictionaryId(long id) {
         LOGGER.debug("Checking dictionary (" + id + ")...");
         Optional<DictConf> opt = dictionaryRepo.findById(id);
         List<Long> ids = new ArrayList<>();
@@ -45,7 +45,7 @@ public class ItemService {
             }
             ids.add(id);
             completeDictIdRecursively(ids, dictionary);
-            return itemRepo.getActiveItemsByDictionariesId(ids);
+            return itemRepo.getItemsByDictionariesId(ids);
         }
         return new ArrayList<>();
     }

@@ -3,6 +3,7 @@ package com.gswcode.dictionarywebservice.mapper;
 import com.google.gson.Gson;
 import com.gswcode.dictionarywebservice.domain.DictConf;
 import com.gswcode.dictionarywebservice.dto.DictionaryDto;
+import com.gswcode.dictionarywebservice.service.ItemService;
 import com.gswcode.dictionarywebservice.util.Common;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -11,15 +12,25 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.mockito.Mockito.when;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class DictionaryMapperTest {
 
+    @MockBean
+    private ItemService itemService;
+    
+    @Autowired
+    private DictionaryMapper dictionaryMapper;
+    
     @Test
     public void testMapToDomainUpdate() {
         //given
-        DictionaryMapper mapper = new DictionaryMapper();
         DictionaryDto dto = new DictionaryDto(
                 3,
                 1,
@@ -30,7 +41,7 @@ public class DictionaryMapperTest {
                 true,
                 20);
         //when
-        DictConf dictConf = mapper.mapToDomain(dto);
+        DictConf dictConf = dictionaryMapper.mapToDomain(dto);
         //then
         Assert.assertEquals(Long.valueOf(3), dictConf.getId());
         Assert.assertEquals("Test7", dictConf.getDictName());
@@ -43,7 +54,6 @@ public class DictionaryMapperTest {
     @Test
     public void testMapToDomain() {
         //given
-        DictionaryMapper mapper = new DictionaryMapper();
         DictionaryDto dto = new DictionaryDto(
                 0,
                 0,
@@ -54,7 +64,7 @@ public class DictionaryMapperTest {
                 true,
                 20);
         //when
-        DictConf dictConf = mapper.mapToDomain(dto);
+        DictConf dictConf = dictionaryMapper.mapToDomain(dto);
         //then
         Assert.assertEquals(Long.valueOf(0), dictConf.getId());
         Assert.assertNull(dictConf.getMasterDictId());
@@ -67,8 +77,7 @@ public class DictionaryMapperTest {
 
     @Test
     public void testMapToDto() {
-        //given
-        DictionaryMapper mapper = new DictionaryMapper();
+        //given    
         DictConf dictConf = new DictConf();
         dictConf.setId(1l);
         dictConf.setDictName("First");
@@ -88,8 +97,11 @@ public class DictionaryMapperTest {
         List<DictConf> subDictConfs = new ArrayList<>();
         subDictConfs.add(subDictConf);
         dictConf.setDictConfList(subDictConfs);
+        
+        when(itemService.getItemsByDictionaryId(11)).thenReturn(new ArrayList<>());
+        when(itemService.getItemsByDictionaryId(21)).thenReturn(new ArrayList<>());
         //when
-        DictionaryDto dto = mapper.mapToDto(dictConf);
+        DictionaryDto dto = dictionaryMapper.mapToDto(dictConf);
         //then
         System.out.println(dto);
 

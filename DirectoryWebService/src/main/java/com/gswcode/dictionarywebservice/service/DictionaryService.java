@@ -65,7 +65,7 @@ public class DictionaryService {
         ServiceStatusDto status = new ServiceStatusDto();
 
         Optional<DictConf> checkName = repo.findByDictName(dictConf.getDictName());
-        if (checkName.isPresent()) {
+        if (checkName.isPresent() && checkName.get().getId().longValue() != dictConf.getId().longValue()) {
             String msg = "Dictionary with name " + dictConf.getDictName() + " already exists! Please set other name";
             LOGGER.debug(msg);
             status.setMessage(msg);

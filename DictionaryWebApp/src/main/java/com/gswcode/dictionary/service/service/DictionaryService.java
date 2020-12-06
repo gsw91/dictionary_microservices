@@ -7,11 +7,10 @@ package com.gswcode.dictionary.service.service;
 
 import com.gswcode.dictionary.service.client.RestClient;
 import com.gswcode.dictionary.service.client.dto.DictionaryDto;
-import com.gswcode.dictionary.service.client.mapper.Mapper;
+import com.gswcode.dictionary.service.client.mapper.DictionaryMapper;
 import com.gswcode.dictionary.service.model.Dictionary;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,7 @@ public class DictionaryService {
     private RestClient restClient;
 
     @Autowired
-    private Mapper mapper;
-
-    private final List<Dictionary> dictionaries = new ArrayList<>();
+    private DictionaryMapper mapper;
 
     public List<Dictionary> getDictionaries() {
         return mapper.mapToModelList(Arrays.asList(restClient.getDictionaries()));
@@ -42,7 +39,7 @@ public class DictionaryService {
             dto.setName(model.getName());
             dto.setDescription(model.getDescription());
             dto.setAuthor(model.getAuthor());
-            dto.setMasterDictionaryId(mapper.getMasterId(model.getMasterDictionaryName()));
+            dto.setMasterDictionaryId(model.getMasterDictionaryId());
             return restClient.updateDictionary(dto).getMessage();
         } else { //insert
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

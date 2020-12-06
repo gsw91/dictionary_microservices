@@ -7,7 +7,10 @@ package com.gswcode.dictionary.service.client;
 
 import com.google.gson.Gson;
 import com.gswcode.dictionary.service.client.dto.DictionaryDto;
+import com.gswcode.dictionary.service.client.dto.ItemDto;
 import com.gswcode.dictionary.service.client.dto.ServiceStatusDto;
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,17 +20,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-/**
- *
- * @author magda
- */
 @Service
 public class RestClient {
 
     @Autowired
     private RestTemplate restTemplate;
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     public DictionaryDto[] getDictionaries() {
         return restTemplate.getForObject("http://localhost:8080/DictionaryWebService/dictionary/getList", DictionaryDto[].class);
@@ -79,6 +78,19 @@ public class RestClient {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<ServiceStatusDto> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE, entity, ServiceStatusDto.class);
+        return res.getBody();
+    }
+
+    public List<ItemDto> getItemsByDictionaryId(long dictionaryId) {
+        return Arrays.asList(restTemplate.getForObject("http://localhost:8080/DictionaryWebService/item/getList?dictionaryId=" + dictionaryId, ItemDto[].class));
+    }
+
+    public ServiceStatusDto addItem(ItemDto dto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Accept", "application/json");
+        headers.add("Content-Type", "application/json");
+        HttpEntity<String> requestAdd = new HttpEntity<>(gson.toJson(dto), headers);
+        ResponseEntity<ServiceStatusDto> res = restTemplate.exchange("http://localhost:8080/DictionaryWebService/item/add", HttpMethod.POST, requestAdd, ServiceStatusDto.class);
         return res.getBody();
     }
 

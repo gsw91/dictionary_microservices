@@ -5,9 +5,12 @@
  */
 package com.gswcode.dictionary.service.controller;
 
-import com.gswcode.dictionary.service.client.mapper.Mapper;
+import com.gswcode.dictionary.service.client.mapper.DictionaryMapper;
+import com.gswcode.dictionary.service.client.mapper.ItemMapper;
 import com.gswcode.dictionary.service.model.Dictionary;
+import com.gswcode.dictionary.service.model.Item;
 import com.gswcode.dictionary.service.service.DictionaryService;
+import com.gswcode.dictionary.service.service.ItemService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +31,27 @@ public class DictionaryController {
 
     @Autowired
     private DictionaryService dictionaryService;
+    
+    @Autowired
+    private ItemService itemService;
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
         model.addAttribute("dictionaryList", dictionaryService.getDictionaries());
-        return "index";
+        return "dictionary_list";
     }
 
     @GetMapping("/newDictionaryForm")
     public String showNewDictionaryForm(Model model) {
         Dictionary dictionary = new Dictionary();
         model.addAttribute("dictionary", dictionary);
-        model.addAttribute("dictionaries", Mapper.namesMap.values());
+        model.addAttribute("dictionaries", DictionaryMapper.NAMES_MAP.values());
         return "new_dictionary";
     }
 
     @PostMapping("/saveDictionary")
     public String saveDictionary(@ModelAttribute("dictionary") Dictionary dictionary, Model model, RedirectAttributes redirAttrs) {
+        System.out.println("Saving" + dictionary);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm:ss");
         dictionary.setCreatedAt(LocalDateTime.now().format(formatter));
         dictionary.setStatus("Active");
@@ -57,7 +64,7 @@ public class DictionaryController {
     public String showFormForUpdate(@PathVariable(value = "id") long id, Model model) {
         Dictionary dictionary = dictionaryService.getDictionaryById(id);
         model.addAttribute("dictionary", dictionary);
-        model.addAttribute("dictionaries", Mapper.namesMap.values());
+        model.addAttribute("dictionaries", DictionaryMapper.NAMES_MAP.values());
         return "update_dictionary";
     }
 
@@ -80,6 +87,33 @@ public class DictionaryController {
         String message = dictionaryService.deleteDictionary(id);
         redirAttrs.addFlashAttribute("success", message);
         return "redirect:/";
+    }
+    
+    @GetMapping("/showItems/{dictionaryId}")
+    public String showItems(@PathVariable(value = "dictionaryId") long dictionaryId, Model model, RedirectAttributes redirAttrs) {
+        String headerInfo = "Items of dictionary " + DictionaryMapper.NAMES_MAP.get(dictionaryId).getName();
+        model.addAttribute("itemList", itemService.getItems(dictionaryId));
+        model.addAttribute("headerInfo", headerInfo);
+        model.addAttribute("dictionaryId", dictionaryId);
+        return "item_list";
+    }
+    
+    @GetMapping("/newItemForm/{dictionaryId}")
+    public String showNewItemForm(@PathVariable(value = "dictionaryId") long dictionaryId, Model model) {
+        Item item = new Item();       
+        item.setDictionaryId(dictionaryId);
+        model.addAttribute("item", item);
+        model.addAttribute("dictionaryId", dictionaryId);
+        model.addAttribute("items", ItemMapper.ITEM_NAMES_MAP.values());
+        return "new_item";
+    }
+    
+    @PostMapping("/saveItem")
+    public String saveItem(@ModelAttribute("item") Item item, Model model, RedirectAttributes redirAttrs) {
+        System.out.println("Saving" + item);   
+        String message = itemService.saveItem(item);
+        redirAttrs.addFlashAttribute("success", message);
+        return "redirect:/showItems/" + item.getDictionaryId();
     }
 
 }

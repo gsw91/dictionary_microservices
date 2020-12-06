@@ -7,6 +7,7 @@ package com.gswcode.dictionary.service.client;
 
 import com.gswcode.dictionary.service.client.dto.DictionaryDto;
 import java.util.Arrays;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,7 @@ public class RestClientTest {
     @Autowired
     private RestClient restClient;
 
-    @Test
-    public void testEmpty() {
-        //given && when && then
-    }
-
+    @Ignore
     @Test
     public void testGetDictionaries() {
         //given && when

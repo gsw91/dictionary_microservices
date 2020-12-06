@@ -22,7 +22,7 @@ public interface DictItemRepository extends JpaRepository<DictItem, Long> {
     @Query("SELECT d from DictItem d where d.idDictConf.id = ?1 and d.termName = ?2")
     Optional<DictItem> findByUniqueIndex(long dictionaryId, String name);
     
-    @Query("SELECT d FROM DictItem d where d.idDictConf.id in (?1) and d.termActive = true")
-    public List<DictItem> getActiveItemsByDictionariesId(List<Long> id);
+    @Query("SELECT d FROM DictItem d where d.idDictConf.id in (?1)")
+    public List<DictItem> getItemsByDictionariesId(List<Long> id);
     
 }
