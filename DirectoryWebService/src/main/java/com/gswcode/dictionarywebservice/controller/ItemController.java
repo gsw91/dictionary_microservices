@@ -38,6 +38,14 @@ public class ItemController {
         ControllerRegistry.getNextRegisterId();
         return mapper.mapToListDto(service.getItemsByDictionaryId(id));
     }
+    
+    @GetMapping("/getById")
+    @ResponseStatus(HttpStatus.OK)
+    public ItemDto getById(@RequestParam("id") long id) {
+        LOGGER.debug("Loading item of id: " + id);
+        ControllerRegistry.getNextRegisterId();
+        return mapper.mapToDto(service.getItemById(id));
+    }
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
@@ -75,7 +83,16 @@ public class ItemController {
         status.setRequestId(ControllerRegistry.getNextRegisterId());
         return status;
     }
-
+    
+    @PutMapping("/activate")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ServiceStatusDto activate(@RequestParam("itemId") long itemId) {
+        LOGGER.debug("Restoring item from archive: " + itemId);
+        ServiceStatusDto status = service.activate(itemId);
+        status.setRequestId(ControllerRegistry.getNextRegisterId());
+        return status;
+    }
+    
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ServiceStatusDto deleteItem(@RequestParam("itemId") long itemId) {

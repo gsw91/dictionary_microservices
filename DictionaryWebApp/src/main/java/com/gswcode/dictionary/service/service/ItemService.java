@@ -35,17 +35,32 @@ public class ItemService {
     
     public String saveItem(Item model) {
         if (model.getId() > 0) { //update
-//            DictionaryDto dto = restClient.getDictionaryById(model.getId());
-//            dto.setName(model.getName());
-//            dto.setDescription(model.getDescription());
-//            dto.setAuthor(model.getAuthor());
-//            dto.setMasterDictionaryId(model.getMasterDictionaryId());
-            return "Not implemented yet";
+            ItemDto dto = restClient.getItemById(model.getId());
+            dto.setTermName(model.getTerm());
+            dto.setTermDescription(model.getDescription());
+            dto.setMasterItemId(model.getAliasId());
+            return restClient.updateItem(dto).getMessage();
         } else { //insert   
             model.setStatus(Status.ACTIVE);
             ItemDto dto = mapper.mapToDto(model);
             return restClient.addItem(dto).getMessage();
         }
+    }
+    
+    public Item getItemById(long id) {
+        return mapper.mapToModel(restClient.getItemById(id));
+    }
+    
+    public String deactivateItem(long id) {
+        return restClient.deactivateItem(id).getMessage();
+    }
+
+    public String activateItem(long id) {
+        return restClient.activateItem(id).getMessage();
+    }
+
+    public String deleteItem(long id) {
+         return restClient.deleteItem(id).getMessage();
     }
     
 }

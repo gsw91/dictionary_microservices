@@ -17,8 +17,9 @@ and open the template in the editor.
         <div class="container p-3 mb-2 bg-light text-dark">
             <h1>Dictionary Manager</h1>
             <hr>
-            <h2>Save Item</h2>
+            <h2>Update Item</h2>
             <form action="#" th:action="@{/saveItem}" th:object="${item}" method="POST">
+                <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:field="*{dictionaryId}">
                 <input type="text" th:field="*{term}" placeholder="Name" class="form-control mb-4 col-4">        
                 <input type="text" th:field="*{description}" placeholder="Description" class="form-control mb-4 col-4"> 

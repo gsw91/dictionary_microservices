@@ -13,7 +13,7 @@ import com.gswcode.dictionarywebservice.repository.DictItemRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ItemService {
 
     private final static Logger LOGGER = Logger.getLogger(ItemService.class);
-    
+
     @Autowired
     private DictConfRepository dictionaryRepo;
 
@@ -40,9 +40,6 @@ public class ItemService {
         List<Long> ids = new ArrayList<>();
         if (opt.isPresent()) {
             DictConf dictionary = opt.get();
-            if (!dictionary.getIsActive()) {
-                throw new RuntimeException();
-            }
             ids.add(id);
             completeDictIdRecursively(ids, dictionary);
             return itemRepo.getItemsByDictionariesId(ids);
@@ -62,7 +59,7 @@ public class ItemService {
             }
         });
     }
-    
+
     public ServiceStatusDto addItem(DictItem item) {
         LOGGER.debug("Adding new item...");
         ServiceStatusDto status = new ServiceStatusDto();
@@ -72,19 +69,19 @@ public class ItemService {
             status.setSuccess(false);
             status.setMessage("Item already exists!");
             return status;
-        }    
+        }
         item.setTermActive(true);
         itemRepo.save(item);
         if (item.getId() != 0) {
             status.setSuccess(true);
-            status.setMessage("Item has been added");        
+            status.setMessage("Item has been added");
         } else {
             status.setSuccess(false);
             status.setMessage("Item cannot be saved, try later");
         }
-        return status;     
+        return status;
     }
-    
+
     public ServiceStatusDto updateItem(DictItem item) {
         LOGGER.debug("Updating item...");
         Optional<DictItem> opt = itemRepo.findById(item.getId());
@@ -97,19 +94,19 @@ public class ItemService {
             dictItem.setIdDictConf(item.getIdDictConf());
             itemRepo.save(dictItem);
             status.setSuccess(true);
-            status.setMessage("Item has been updated");       
+            status.setMessage("Item has been updated");
         } else {
             status.setSuccess(false);
             status.setMessage("Item cannot be updated, try later");
         }
-        return status;  
+        return status;
     }
-    
+
     public ServiceStatusDto deactivate(long id) {
         LOGGER.debug("Deactivating item: " + id);
         ServiceStatusDto status = new ServiceStatusDto();
         Optional<DictItem> optDict = itemRepo.findById(id);
-        if (optDict.isPresent()) {            
+        if (optDict.isPresent()) {
             DictItem domain = optDict.get();
             if (domain.getTermActive()) {
                 domain.setTermActive(false);
@@ -121,12 +118,34 @@ public class ItemService {
                 status.setSuccess(false);
             }
         } else {
-            status.setMessage("We can not update thew dictionary at this moment, please try later");
+            status.setMessage("Item not found");
             status.setSuccess(false);
         }
         return status;
     }
     
+    public ServiceStatusDto activate(long id) {
+        LOGGER.debug("Activating item: " + id);
+        ServiceStatusDto status = new ServiceStatusDto();
+        Optional<DictItem> optDict = itemRepo.findById(id);
+        if (optDict.isPresent()) {
+            DictItem domain = optDict.get();
+            if (!domain.getTermActive()) {
+                domain.setTermActive(true);
+                itemRepo.save(domain);
+                status.setMessage("Item restored: " + domain.getTermName());
+                status.setSuccess(true);
+            } else {
+                status.setMessage("Item " + domain.getTermName() + " is already active!");
+                status.setSuccess(false);
+            }
+        } else {
+            status.setMessage("Item not found");
+            status.setSuccess(false);
+        }
+        return status;
+    }
+
     public ServiceStatusDto delete(long id) {
         LOGGER.debug("Deleting item: " + id);
         itemRepo.deleteById(id);
@@ -134,6 +153,15 @@ public class ItemService {
         status.setMessage("Item has been deleted");
         status.setSuccess(true);
         return status;
+    }
+
+    public DictItem getItemById(long id) {
+        LOGGER.debug("Looking for item: " + id);
+        Optional<DictItem> opt = itemRepo.findById(id);
+        if (opt.isPresent())
+            return opt.get();
+        else 
+            return new DictItem();
     }
 
 }

@@ -103,7 +103,6 @@ public class DictionaryController {
         Item item = new Item();       
         item.setDictionaryId(dictionaryId);
         model.addAttribute("item", item);
-        model.addAttribute("dictionaryId", dictionaryId);
         model.addAttribute("items", ItemMapper.ITEM_NAMES_MAP.values());
         return "new_item";
     }
@@ -114,6 +113,36 @@ public class DictionaryController {
         String message = itemService.saveItem(item);
         redirAttrs.addFlashAttribute("success", message);
         return "redirect:/showItems/" + item.getDictionaryId();
+    }
+    
+    @GetMapping("/updateItemForm/{id}")
+    public String updateItemForm(@PathVariable(value = "id") long id, Model model) {
+        Item item = itemService.getItemById(id);
+        model.addAttribute("id_dictionary", item.getDictionaryId());
+        model.addAttribute("item", item);
+        model.addAttribute("items", ItemMapper.ITEM_NAMES_MAP.values());
+        return "update_item";
+    }
+    
+    @GetMapping("/deactivateItem/{dictionaryId}/{itemId}")
+    public String deactivateItem(@PathVariable(value = "dictionaryId") long dictionaryId, @PathVariable(value = "itemId") long itemId, Model model, RedirectAttributes redirAttrs) {
+        String message = itemService.deactivateItem(itemId);
+        redirAttrs.addFlashAttribute("success", message);
+        return "redirect:/showItems/" + dictionaryId;
+    }
+
+    @GetMapping("/activateItem/{dictionaryId}/{itemId}")
+    public String activateItem(@PathVariable(value = "dictionaryId") long dictionaryId, @PathVariable(value = "itemId") long itemId, Model model, RedirectAttributes redirAttrs) {
+        String message = itemService.activateItem(itemId);
+        redirAttrs.addFlashAttribute("success", message);
+        return "redirect:/showItems/" + dictionaryId;
+    }
+
+    @GetMapping("/deleteItem/{dictionaryId}/{itemId}")
+    public String deleteItem(@PathVariable(value = "dictionaryId") long dictionaryId, @PathVariable(value = "itemId") long itemId, Model model, RedirectAttributes redirAttrs) {
+        String message = itemService.deleteItem(itemId);
+        redirAttrs.addFlashAttribute("success", message);
+        return "redirect:/showItems/" + dictionaryId;
     }
 
 }
