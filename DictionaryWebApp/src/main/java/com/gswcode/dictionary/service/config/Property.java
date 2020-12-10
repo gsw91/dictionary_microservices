@@ -17,6 +17,8 @@ public class Property {
         if (BASE_URL == null) {
             System.out.println("Setting http base url...");
             BASE_URL = System.getenv("app.base_url");
+            if (BASE_URL == null)
+                BASE_URL = System.getProperty("app.base_url");
             System.out.println("Base url is: " + BASE_URL);
         }
         return BASE_URL;

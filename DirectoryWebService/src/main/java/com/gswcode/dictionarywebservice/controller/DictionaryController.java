@@ -39,7 +39,6 @@ public class DictionaryController {
         LOGGER.debug("Objects from db: " + dictConfList.size());
         List<DictionaryDto> dtos = mapper.mapToListDto(dictConfList);
         LOGGER.debug("Objects mapped: " + dictConfList.size());
-        ControllerRegistry.getNextRegisterId();
         return dtos;
     }
 
