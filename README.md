@@ -1,5 +1,9 @@
 # dictionary_microservices
 
+MySql shema:
+
+	\CONFIG-EXAMPLE\mysql_schema.sql
+
 Docker images: 
 	
 	Rest Web Service: https://hub.docker.com/r/gsw91/d-ws2
