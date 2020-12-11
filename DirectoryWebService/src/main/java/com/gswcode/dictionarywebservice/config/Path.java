@@ -12,8 +12,8 @@ public class Path {
 
     public static String getApplicationPath() {
         ApplicationHome home = new ApplicationHome(DictionaryWebServiceApplication.class);
-//        return home.getDir().getAbsolutePath();
-        return "src/main/resources";
+        return home.getDir().getAbsolutePath();
+//        return "src/main/resources";
     }
 
     public static String getUpdateFileDir() {

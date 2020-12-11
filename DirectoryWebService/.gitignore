@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Other ###
+DirectoryWebService/src/main/resources/dws-config/dws-config.properties

@@ -198,10 +198,15 @@ public class FileUpdateService {
                     LOGGER.error(ex.getMessage(), ex);
                 }
             }
+            processing = false;
             return terminationStatus;
         } else {
             return new TerminationStatus("", 0, 0, 0, 0);
         }
+    }
+
+    public boolean isProcessing() {
+        return processing;
     }
 
 }
