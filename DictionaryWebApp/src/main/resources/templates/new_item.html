@@ -28,7 +28,8 @@ and open the template in the editor.
                     </div>
                     <div class="col-lg-3">
                         <select th:field="*{aliasId}" id='dictionary_code' name='dictionary_code' class="form-control">
-                             <option th:each="item : ${items}"
+                            <option th:value="0" text="None"></option>
+                            <option th:each="item : ${items}"
                                  th:value="${item.id}"
                                  th:text="${item.filter}" />
                          </select>

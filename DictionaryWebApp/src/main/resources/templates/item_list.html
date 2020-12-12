@@ -43,14 +43,14 @@ and open the template in the editor.
                             <td th:text="${item.dictionaryName}"></td>
                             <td><input type="checkbox" style="width: 20px; height: 20px" name="active" disabled="true" th:checked="${item.isSubdictionary}" /></td>
                             <td> 
-                                <a th:href="@{/dms/updateItemForm/{id}(id=${item.id})}" class="btn btn-primary" style="width: 80px">Update</a> 
+                                <a th:href="@{/dms/updateItemForm/{currDictionaryId}/{id}(currDictionaryId=${dictionaryId},id=${item.id})}" class="btn btn-primary" style="width: 80px">Update</a> 
                                 <span th:if="${item.status == 'Active'}">
-                                    <a th:href="@{/dms/deactivateItem/{dictionaryId}/{itemId}(dictionaryId=${item.dictionaryId},itemId=${item.id})}" class="btn btn-warning" style="width: 100px">Deactivate</a>
+                                    <a th:href="@{/dms/deactivateItem/{currDictionaryId}/{itemId}(currDictionaryId=${dictionaryId},itemId=${item.id})}" class="btn btn-warning" style="width: 100px">Deactivate</a>
                                 </span>
                                 <span th:unless="${item.status == 'Active'}">
-                                    <a th:href="@{/dms/activateItem/{dictionaryId}/{itemId}(dictionaryId=${item.dictionaryId},itemId=${item.id})}" class="btn btn-success" style="width: 100px">Activate</a>
+                                    <a th:href="@{/dms/activateItem/{currDictionaryId}/{itemId}(currDictionaryId=${dictionaryId},itemId=${item.id})}" class="btn btn-success" style="width: 100px">Activate</a>
                                 </span>
-                                <a th:href="@{/dms/deleteItem/{dictionaryId}/{itemId}(dictionaryId=${item.dictionaryId},itemId=${item.id})}" class="btn btn-danger" style="width: 80px">Delete</a>
+                                <a th:href="@{/dms/deleteItem/{currDictionaryId}/{itemId}(currDictionaryId=${dictionaryId},itemId=${item.id})}" class="btn btn-danger" style="width: 80px">Delete</a>
                             </td>
                         </tr>
                     </tbody>

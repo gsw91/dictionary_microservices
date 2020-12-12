@@ -14,6 +14,8 @@ import com.gswcode.dictionary.service.service.DictionaryService;
 import com.gswcode.dictionary.service.service.ItemService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,7 +82,11 @@ public class DmsController {
     public String showFormForUpdate(@PathVariable(value = "id") long id, Model model) {
         Dictionary dictionary = dictionaryService.getDictionaryById(id);
         model.addAttribute("dictionary", dictionary);
-        model.addAttribute("dictionaries", DictionaryMapper.NAMES_MAP.values());
+        model.addAttribute("dictionaries", 
+                DictionaryMapper.NAMES_MAP.values()
+                        .stream()
+                        .filter(t -> t.getId() != id)
+                        .collect(Collectors.toList()));
         return "update_dictionary";
     }
 
@@ -106,11 +112,12 @@ public class DmsController {
     }
 
     @GetMapping("/showItems/{dictionaryId}")
-    public String showItems(@PathVariable(value = "dictionaryId") long dictionaryId, Model model, RedirectAttributes redirAttrs) {
+    public String showItems(@PathVariable(value = "dictionaryId") long dictionaryId, Model model, HttpSession session, RedirectAttributes redirAttrs) {
         String headerInfo = "Items of dictionary " + DictionaryMapper.NAMES_MAP.get(dictionaryId).getName();
         model.addAttribute("itemList", itemService.getItems(dictionaryId));
         model.addAttribute("headerInfo", headerInfo);
         model.addAttribute("dictionaryId", dictionaryId);
+        session.setAttribute("currentDictionary", dictionaryId);
         return "item_list";
     }
 
@@ -119,36 +126,53 @@ public class DmsController {
         Item item = new Item();
         item.setDictionaryId(dictionaryId);
         model.addAttribute("item", item);
-        model.addAttribute("items", ItemMapper.ITEM_NAMES_MAP.values());
+        model.addAttribute("items",
+                ItemMapper.ITEM_NAMES_MAP.values()
+                        .stream()
+                        .filter(t -> t.getIdDictionary() == dictionaryId)
+                        .collect(Collectors.toList()));
         return "new_item";
     }
 
     @PostMapping("/saveItem")
     public String saveItem(@ModelAttribute("item") Item item, Model model, RedirectAttributes redirAttrs) {
-        System.out.println("Saving" + item);
         String message = itemService.saveItem(item);
         redirAttrs.addFlashAttribute("success", message);
         return "redirect:/dms/showItems/" + item.getDictionaryId();
     }
 
-    @GetMapping("/updateItemForm/{id}")
-    public String updateItemForm(@PathVariable(value = "id") long id, Model model) {
+    @PostMapping("/updateItem")
+    public String updateItem(@ModelAttribute("item") Item item, Model model, HttpSession session, RedirectAttributes redirAttrs) {
+        String message = itemService.saveItem(item);
+        redirAttrs.addFlashAttribute("success", message);
+        return "redirect:/dms/showItems/" + session.getAttribute("currentDictionary");
+    }
+
+    @GetMapping("/updateItemForm/{currDictionaryId}/{id}")
+    public String updateItemForm(@PathVariable(value = "currDictionaryId") long dictionaryId, @PathVariable(value = "id") long id, Model model) {
         Item item = itemService.getItemById(id);
-        model.addAttribute("id_dictionary", item.getDictionaryId());
+        Dictionary currDict = new Dictionary();
+        currDict.setId(dictionaryId);
+        model.addAttribute("redirectToDictionary", currDict);
         model.addAttribute("item", item);
-        model.addAttribute("items", ItemMapper.ITEM_NAMES_MAP.values());
+        model.addAttribute("items",
+                ItemMapper.ITEM_NAMES_MAP.values()
+                        .stream()
+                        .filter(t -> t.getIdDictionary() == item.getDictionaryId())
+                        .filter(t -> t.getId() != id)
+                        .collect(Collectors.toList()));
         return "update_item";
     }
 
-    @GetMapping("/deactivateItem/{dictionaryId}/{itemId}")
-    public String deactivateItem(@PathVariable(value = "dictionaryId") long dictionaryId, @PathVariable(value = "itemId") long itemId, Model model, RedirectAttributes redirAttrs) {
+    @GetMapping("/deactivateItem/{currDictionaryId}/{itemId}")
+    public String deactivateItem(@PathVariable(value = "currDictionaryId") long dictionaryId, @PathVariable(value = "itemId") long itemId, Model model, RedirectAttributes redirAttrs) {
         String message = itemService.deactivateItem(itemId);
         redirAttrs.addFlashAttribute("success", message);
         return "redirect:/dms/showItems/" + dictionaryId;
     }
 
-    @GetMapping("/activateItem/{dictionaryId}/{itemId}")
-    public String activateItem(@PathVariable(value = "dictionaryId") long dictionaryId, @PathVariable(value = "itemId") long itemId, Model model, RedirectAttributes redirAttrs) {
+    @GetMapping("/activateItem/{currDictionaryId}/{itemId}")
+    public String activateItem(@PathVariable(value = "currDictionaryId") long dictionaryId, @PathVariable(value = "itemId") long itemId, Model model, RedirectAttributes redirAttrs) {
         ServiceStatusDto status = itemService.activateItem(itemId);
         String message = status.getMessage();
         if (status.isSuccess()) {

@@ -86,11 +86,14 @@ public class ItemService {
             DictItem dictItem = opt.get();
             dictItem.setTermName(item.getTermName());
             dictItem.setTermDescription(item.getTermDescription());
-            dictItem.setAliasId(item.getAliasId());
+            if (!item.equals(item.getAliasId()))
+                dictItem.setAliasId(item.getAliasId());
             dictItem.setIdDictConf(item.getIdDictConf());
             itemRepo.save(dictItem);
             status.setSuccess(true);
-            status.setMessage("Item has been updated");
+            status.setMessage("Item has been updated");           
+            if (item.equals(item.getAliasId()))
+                status.setMessage("Item updated partially, it is not allowed to set master item id the same as current item id");                   
         } else {
             status.setSuccess(false);
             status.setMessage("Item cannot be updated, try later");

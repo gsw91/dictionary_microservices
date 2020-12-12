@@ -18,7 +18,7 @@ and open the template in the editor.
             <h1>Dictionary Manager</h1>
             <hr>
             <h2>Update Item</h2>
-            <form action="#" th:action="@{/dms/saveItem}" th:object="${item}" method="POST">
+            <form action="#" th:action="@{/dms/updateItem}" th:object="${item}" method="POST">
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:field="*{dictionaryId}">
                 <input type="text" th:field="*{term}" placeholder="Name" class="form-control mb-4 col-4">        
@@ -29,7 +29,8 @@ and open the template in the editor.
                     </div>
                     <div class="col-lg-3">
                         <select th:field="*{aliasId}" id='dictionary_code' name='dictionary_code' class="form-control">
-                             <option th:each="item : ${items}"
+                            <option th:value="0" text="None"></option>
+                            <option th:each="item : ${items}"
                                  th:value="${item.id}"
                                  th:text="${item.filter}" />
                          </select>
@@ -40,8 +41,9 @@ and open the template in the editor.
                         <tbody>
                             <tr>
                                 <td>
-                                    <button type="submit" class="btn btn-info col-2"> Save </button>
-                                    <a th:href="@{/dms/showItems/{dictionaryId}(dictionaryId=*{dictionaryId})}" class="btn btn-primary col-2">Back</a>
+                                        <button type="submit" class="btn btn-info col-2"> Save </button>
+                                        <a th:href="@{/dms/showItems/{dictionaryId}(dictionaryId=${redirectToDictionary.id})}" class="btn btn-primary col-2">Back</a>
+                                    </form>
                                 </td>
                             </tr>
                         </tbody>                          

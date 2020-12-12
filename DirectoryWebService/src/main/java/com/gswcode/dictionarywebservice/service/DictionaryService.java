@@ -78,12 +78,12 @@ public class DictionaryService {
             domain.setDictName(dictConf.getDictName());
             domain.setDictDescription(dictConf.getDictDescription());
             domain.setAuthor(dictConf.getAuthor());
-            if (dictConf.getId().longValue() != domain.getId())
+            if (!dictConf.equals(dictConf.getMasterDictId()))
                 domain.setMasterDictId(dictConf.getMasterDictId());
             repo.save(domain);
             status.setMessage("Dictionary updated");
-            if (dictConf.getId().longValue() == domain.getId())
-                status.setMessage("Dictionary partially updated, it is not allowed to set master dictionary id the same as current dictionary id");
+            if (dictConf.equals(dictConf.getMasterDictId()))
+                status.setMessage("Dictionary updated partially, it is not allowed to set master dictionary id the same as current dictionary id");
             status.setSuccess(true);
         } else {
             status.setMessage("We can not update thew dictionary at this moment, please try later");

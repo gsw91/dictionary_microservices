@@ -152,6 +152,7 @@ public class FileUpdateService {
                             LOGGER.error(ex.getMessage(), ex);
                         }
                     }
+                    filesProcessed++;
                 }
                 if (!terminateProcessing) {
                     Map<String, Object> params = new HashMap<>();
