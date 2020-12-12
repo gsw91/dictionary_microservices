@@ -57,6 +57,9 @@ Docker configuration:
 			docker cp dws-config/dws-config.properties DictionaryWebService:/dws-config/dws-config.properties
 			docker start DictionaryWebService 
 			pause 
+			
+		4. After start, server base url endpoint is: localhost:8080/DictionaryWebService
+			Documentation (swagger) endpoint: localhost:8080/DictionaryWebService/swagger-ui/#/
 
 	Web Application: 
 		
@@ -71,3 +74,4 @@ Docker configuration:
 					--name DictionaryWebApp ^
 					gsw91/d-ws2_app:latest
 			
+		2. After start, application base endpoint is: localhost:8989/DictionaryWebService

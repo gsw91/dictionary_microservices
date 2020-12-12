@@ -18,7 +18,7 @@ and open the template in the editor.
             <h1>Dictionary Manager</h1>
             <hr>
             <h2>Save Dictionary</h2>
-            <form action="#" th:action="@{/saveDictionary}" th:object="${dictionary}" method="POST">
+            <form action="#" th:action="@{/dms/saveDictionary}" th:object="${dictionary}" method="POST">
                 <input type="text" th:field="*{name}" placeholder="Dictionary name" class="form-control mb-4 col-4">        
                 <input type="text" th:field="*{description}" placeholder="Description" class="form-control mb-4 col-4">
                 <input type="text" th:field="*{author}" placeholder="Author" class="form-control mb-4 col-4">    
@@ -40,7 +40,7 @@ and open the template in the editor.
                             <tr>
                                 <td>
                                     <button type="submit" class="btn btn-info col-2"> Save </button>
-                                    <a th:href="@{/}" class="btn btn-primary col-2">Back</a>
+                                    <a th:href="@{/dms}" class="btn btn-primary col-2">Back</a>
                                 </td>
                             </tr>
                         </tbody>                          

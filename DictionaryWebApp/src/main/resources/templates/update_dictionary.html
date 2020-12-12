@@ -13,7 +13,7 @@
         <div class="container p-3 mb-2 bg-light text-dark">
             <h1>Dictionary Manager - Update</h1>       
             <hr>
-            <form action="#" th:action="@{/saveDictionary}" th:object="${dictionary}" method="POST">
+            <form action="#" th:action="@{/dms/saveDictionary}" th:object="${dictionary}" method="POST">
                 <input type="hidden" th:field="*{id}">
                 <h7> Title: </h7>
                 <input type="text" th:field="*{name}" placeholder="Dictionary name" class="form-control mb-4 col-4">        
@@ -34,7 +34,7 @@
                         <tr>
                             <td>
                                 <button type="submit" class="btn btn-info col-2"> Save </button>
-                                <a th:href="@{/}" class="btn btn-primary col-2">Back</a>
+                                <a th:href="@{/dms}" class="btn btn-primary col-2">Back</a>
                             </td>
                         </tr>
                     </tbody>                          

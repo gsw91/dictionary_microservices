@@ -11,10 +11,14 @@ import com.gswcode.dictionary.service.client.mapper.DictionaryMapper;
 import com.gswcode.dictionary.service.model.Dictionary;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
 /**
  *
@@ -23,6 +27,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class DictionaryService {
 
+    private final static Logger LOGGER = Logger.getLogger("DictionaryService");
+    private boolean serverAvailable = true;
+
     @Autowired
     private RestClient restClient;
 
@@ -30,7 +37,16 @@ public class DictionaryService {
     private DictionaryMapper mapper;
 
     public List<Dictionary> getDictionaries() {
-        return mapper.mapToModelList(Arrays.asList(restClient.getDictionaries()));
+        List<DictionaryDto> dtos;
+        try {
+            dtos = Arrays.asList(restClient.getDictionaries());
+            serverAvailable = true;
+        } catch (ResourceAccessException cex) {
+            LOGGER.warning(cex.getMessage());
+            dtos = new ArrayList<>();
+            serverAvailable = false;
+        }
+        return mapper.mapToModelList(dtos);
     }
 
     public String saveDictionary(Dictionary model) {
@@ -62,7 +78,11 @@ public class DictionaryService {
     }
 
     public String deleteDictionary(long id) {
-         return restClient.deleteDictionary(id).getMessage();
+        return restClient.deleteDictionary(id).getMessage();
+    }
+
+    public boolean isServerAvailable() {
+        return serverAvailable;
     }
 
 }

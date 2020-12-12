@@ -7,6 +7,7 @@ package com.gswcode.dictionary.service.service;
 
 import com.gswcode.dictionary.service.client.RestClient;
 import com.gswcode.dictionary.service.client.dto.ItemDto;
+import com.gswcode.dictionary.service.client.dto.ServiceStatusDto;
 import com.gswcode.dictionary.service.client.mapper.ItemMapper;
 import com.gswcode.dictionary.service.model.Item;
 import com.gswcode.dictionary.service.model.Status;
@@ -55,8 +56,8 @@ public class ItemService {
         return restClient.deactivateItem(id).getMessage();
     }
 
-    public String activateItem(long id) {
-        return restClient.activateItem(id).getMessage();
+    public ServiceStatusDto activateItem(long id) {
+        return restClient.activateItem(id);
     }
 
     public String deleteItem(long id) {

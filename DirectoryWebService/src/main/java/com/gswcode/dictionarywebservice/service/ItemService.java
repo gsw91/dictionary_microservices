@@ -119,13 +119,19 @@ public class ItemService {
         }
         return status;
     }
-    
+
     public ServiceStatusDto activate(long id) {
         LOGGER.debug("Activating item: " + id);
         ServiceStatusDto status = new ServiceStatusDto();
         Optional<DictItem> optDict = itemRepo.findById(id);
         if (optDict.isPresent()) {
             DictItem domain = optDict.get();
+            DictConf dictConf = dictionaryRepo.getOne(domain.getIdDictConf().getId());
+            if (dictConf != null && !dictConf.getIsActive()) {
+                status.setMessage("You can not activate the item when dictionary is deactivated");
+                status.setSuccess(false);
+                return status;
+            }
             if (!domain.getTermActive()) {
                 domain.setTermActive(true);
                 itemRepo.save(domain);
@@ -154,10 +160,11 @@ public class ItemService {
     public DictItem getItemById(long id) {
         LOGGER.debug("Looking for item: " + id);
         Optional<DictItem> opt = itemRepo.findById(id);
-        if (opt.isPresent())
+        if (opt.isPresent()) {
             return opt.get();
-        else 
+        } else {
             return new DictItem();
+        }
     }
 
 }
