@@ -41,6 +41,16 @@ CREATE TABLE `dict_conf` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `dict_conf`
+--
+
+LOCK TABLES `dict_conf` WRITE;
+/*!40000 ALTER TABLE `dict_conf` DISABLE KEYS */;
+INSERT INTO `dict_conf` VALUES (17,'Capitals part 1','European Capitals',1,'2020-12-13 10:37:08',NULL,'Unknown',19),(18,'Capitals part 2','African Capitals',1,'2020-12-13 10:37:45','2020-12-13 10:45:03','Unknown',19),(19,'World Capitals','Capitals from the whole world',1,'2020-12-13 10:38:15',NULL,'Unknown',NULL);
+/*!40000 ALTER TABLE `dict_conf` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `dict_item`
 --
 
@@ -62,6 +72,16 @@ CREATE TABLE `dict_item` (
   CONSTRAINT `fx_id_item_alias` FOREIGN KEY (`alias_id`) REFERENCES `dict_item` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dict_item`
+--
+
+LOCK TABLES `dict_item` WRITE;
+/*!40000 ALTER TABLE `dict_item` DISABLE KEYS */;
+INSERT INTO `dict_item` VALUES (37,17,'London','The capital of England',1,NULL),(38,17,'Berlin','The capital of Germany',1,NULL),(39,17,'Warsaw','The capital of Poland',1,NULL),(40,17,'Westminster','It is a dictrict of London',1,37),(41,17,'Greenwich','It is a dictrict of London',1,37),(42,18,'Rabat','The capital of Marocco',1,NULL),(43,18,'Kair','The capital of Egypt',1,NULL),(44,18,'Brazzaville','The capital of Congo',1,NULL);
+/*!40000 ALTER TABLE `dict_item` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -72,4 +92,4 @@ CREATE TABLE `dict_item` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-13 11:46:53
+-- Dump completed on 2020-12-13 11:47:45
