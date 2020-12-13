@@ -5,10 +5,6 @@
  */
 package com.gswcode.dictionary.service.config;
 
-/**
- *
- * @author magda
- */
 public class Property {
     
     private static String BASE_URL;

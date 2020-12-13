@@ -20,10 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
-/**
- *
- * @author gwojcik
- */
 @Service
 public class DictionaryService {
 

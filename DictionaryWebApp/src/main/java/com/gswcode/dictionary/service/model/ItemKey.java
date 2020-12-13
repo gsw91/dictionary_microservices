@@ -5,10 +5,6 @@
  */
 package com.gswcode.dictionary.service.model;
 
-/**
- *
- * @author magda
- */
 public class ItemKey {
     
     private long id;

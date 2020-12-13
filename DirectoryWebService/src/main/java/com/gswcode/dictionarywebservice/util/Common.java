@@ -7,10 +7,6 @@ package com.gswcode.dictionarywebservice.util;
 
 import java.time.format.DateTimeFormatter;
 
-/**
- *
- * @author magda
- */
 public class Common {
     
     public final static DateTimeFormatter LOCAL_DT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");

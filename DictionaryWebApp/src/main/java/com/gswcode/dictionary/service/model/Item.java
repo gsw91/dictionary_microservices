@@ -5,10 +5,6 @@
  */
 package com.gswcode.dictionary.service.model;
 
-/**
- *
- * @author gwojcik
- */
 public class Item {
     
     private long id;

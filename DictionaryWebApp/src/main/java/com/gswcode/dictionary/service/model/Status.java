@@ -5,10 +5,6 @@
  */
 package com.gswcode.dictionary.service.model;
 
-/**
- *
- * @author magda
- */
 public class Status {
     public final static String ACTIVE = "Active";
     public final static String ARCHIVED = "Archived";
